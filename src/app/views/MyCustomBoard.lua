@@ -536,14 +536,98 @@ function MyBoard:checkCell( cell , isNotClean )
             -- print(cell.row,cell.col,step,cell.Special)
         end
     end
+
+    for i,v in pairs(listH)  do
+        if cell.isNeedClean and cell.SpecialExp and cell.Special   then
+            self:SpecialSinged(v)
+        end
+    end
+    for i,v in pairs(listV) do
+        if cell.isNeedClean and cell.SpecialExp and cell.Special   then
+            self:SpecialSinged(v)
+        end
+    end
     return isNeedAnim
 end
+
+function MyBoard:SpecialSinged( cell )
+    if cell.Special == 2 then
+        print("消除一整行",cell.row)
+        for i=1,8 do
+            if i == cell.col  then
+                
+            else
+                cell_AH = self:getCell(cell.row, i)
+                cell_AH.isNeedClean = true
+                cell_AH.cutOrder = 1
+                if cell_AH.Special and cell_AH.Special  and cell_AH.Special > 0 then
+                    self:SpecialSinged(cell_AH)
+                end
+            end
+        end
+    end
+    -- if cell.Special == 1 then
+    --     print("消除一整列",cell.col)
+    --     for i=1,8 do
+    --         if i == cell.row  then
+                
+    --         else
+    --             cell_AV = self:getCell(i, cell.col)
+    --             cell_AV.isNeedClean = true
+    --             cell_AV.cutOrder = 1
+    --             if cell_AV.Special and cell_AV.Special  and cell_AV.Special > 0 then
+    --                 self:SpecialSinged(cell_AV)
+    --             end
+    --         end
+    --     end
+    -- end
+end
+
+    -- if v.Special == 2 and v.SpecialExp then
+    --     print("消除一整行",v.row)
+    --     local list_AH = {}
+    --     list_AH [#list_AH + 1] = cell
+    --     local i = cell.col
+    --     local cell_AH = self:getCell(v.row, i)
+    --     for i=1,8 do
+    --         list_AH [#list_AH + 1] = cell_AH
+
+    --     end
+    -- end
+    -- if list_AH then
+    --     for i,v in pairs(list_AH) do
+    --         v.SpecialExp = true
+    --         v.isNeedClean = true
+    --     end
+    -- end
+
+
 --处理标记消除项目，掉落新的格子内容
 function MyBoard:changeSingedCell( onAnimationComplete , timeScale )
     local DropList = {}
     --统计所有的最高掉落项
     local DropListFinal = {}
+
     for i,v in pairs(self.cells) do
+               
+                        -- if v.Special == 2 and v.SpecialExp then
+                        --     print("消除一整行",v.row)
+                        --     local list_AH = {}
+                        --     list_AH [#list_AH + 1] = cell
+                        --     local i = cell.col
+                        --     local cell_AH = self:getCell(v.row, i)
+                        --     for i=1,8 do
+                        --         cell_AH = self:getCell(v.row, i)
+                        --         list_AH [#list_AH + 1] = cell_AH
+                        --     end
+                        -- end
+                        --     if list_AH then
+                        --     for i,v in pairs(list_AH) do
+                        --        v:Explod(CELL_SCALE, 1 )
+                        --         -- v.SpecialExp = true
+                        --         -- v.isNeedClean = true
+                        --     end
+                        -- end
         if v.isNeedClean then
             
             if v.SpecialExp ==nil and v.Special and v.Special > 0 then
@@ -568,7 +652,61 @@ function MyBoard:changeSingedCell( onAnimationComplete , timeScale )
                 else
                     dispatcher:dispatchEvent(TinyEventCustom({name = GAME_SIG_COMPELETE_NORMAL ,cell_x = x,cell_y = y,nodeType = v.nodeType}))
                 end
+                 
+                        
+
+                        -- if v.Special == 1 and v.SpecialExp then
+                        --     print("消除一整列",v.col)
+                           
+                        --     -- list_AH [#list_AH + 1] = cell
+                        --     -- local cell_AV = nil
+                        --     for j=1,8 do
+                        --         cell_AV = self:getCell(j, v.col)
+                        --         list_AV [#list_AV + 1] = cell_AV
+                        --     end
+                        -- end
+                        -- if list_AV then
+                        --     for j,v in pairs(list_AV) do
+                        --           v.isNeedClean = true
+                        --     end
+                        --      v.cutOrder = 1
+                        -- end
+
+
+                        -- if list_AH then
+                        --     for i,v in pairs(list_AH) do
+                        --        v:Explod(CELL_SCALE, 1)
+                        --     end
+                        -- end
+                    
+                    -- local list_H = {}
+                    -- list_H [#list_H + 1] = cell
+                    -- local i = cell.col
+                    -- y = cell.row
+                    -- for i=1,8 do
+                    --     local cell_AH = self:getCell(cell.row,i)
+                    --     if cell_AH then
+                    --        list_H [#list_H + 1] = cell_AH 
+                    --    end
+                    -- end
+                    -- if #list_H then
+                    --     isNeedAnim = 1
+                    --     if isNotClean then
+                    --         else
+                    --             for i,v in pairs(list_H) do
+                    --                 if v.Special and v.Special > 0 and v.step ~= step then
+                    
+                    --                     v.SpecialExp = true
+                    --                     v.isNeedClean = true
+                    --                 else
+                    --                     v.isNeedClean = true
+                    --                 end
+                    --                     v.cutOrder = i
+                    --                 end
+                    --             end
+                    --         end
                 
+
                 for i,v in pairs(DropList) do
                     if col == v.col then
                         drop_pad = drop_pad + 1
@@ -587,6 +725,8 @@ function MyBoard:changeSingedCell( onAnimationComplete , timeScale )
                     cell = Cell.new()
                 end
                 DropList [#DropList + 1] = cell
+
+
                 DropListFinal [#DropListFinal + 1] = cell
                 cell.isNeedClean = false
                 cell:setPosition(x, y)
@@ -600,6 +740,16 @@ function MyBoard:changeSingedCell( onAnimationComplete , timeScale )
                 else
                     self.grid[row][col]:setLocalZOrder(CELL_ZORDER + 1)
                     self.grid[row][col]:Explod(CELL_SCALE,self.grid[row][col].cutOrder )
+                    -- if list_AH then
+                    --         for i,v in pairs(list_AH) do
+                    --            v:Explod(CELL_SCALE, 1)
+                    --         end
+                    --     end
+                    --     if list_AV then
+                    --         for j,v in pairs(list_AV) do
+                    --            v:Explod(CELL_SCALE, 1)
+                    --         end
+                    --     end
                     self.grid[row][col] = nil
                 end
                 self.cells[i] = cell
