@@ -583,23 +583,6 @@ function MyBoard:SpecialSinged( cell )
     -- end
 end
 
-    -- if v.Special == 2 and v.SpecialExp then
-    --     print("消除一整行",v.row)
-    --     local list_AH = {}
-    --     list_AH [#list_AH + 1] = cell
-    --     local i = cell.col
-    --     local cell_AH = self:getCell(v.row, i)
-    --     for i=1,8 do
-    --         list_AH [#list_AH + 1] = cell_AH
-
-    --     end
-    -- end
-    -- if list_AH then
-    --     for i,v in pairs(list_AH) do
-    --         v.SpecialExp = true
-    --         v.isNeedClean = true
-    --     end
-    -- end
 
 
 --处理标记消除项目，掉落新的格子内容
@@ -610,24 +593,6 @@ function MyBoard:changeSingedCell( onAnimationComplete , timeScale )
 
     for i,v in pairs(self.cells) do
                
-                        -- if v.Special == 2 and v.SpecialExp then
-                        --     print("消除一整行",v.row)
-                        --     local list_AH = {}
-                        --     list_AH [#list_AH + 1] = cell
-                        --     local i = cell.col
-                        --     local cell_AH = self:getCell(v.row, i)
-                        --     for i=1,8 do
-                        --         cell_AH = self:getCell(v.row, i)
-                        --         list_AH [#list_AH + 1] = cell_AH
-                        --     end
-                        -- end
-                        --     if list_AH then
-                        --     for i,v in pairs(list_AH) do
-                        --        v:Explod(CELL_SCALE, 1 )
-                        --         -- v.SpecialExp = true
-                        --         -- v.isNeedClean = true
-                        --     end
-                        -- end
         if v.isNeedClean then
             
             if v.SpecialExp ==nil and v.Special and v.Special > 0 then
@@ -654,58 +619,6 @@ function MyBoard:changeSingedCell( onAnimationComplete , timeScale )
                 end
                  
                         
-
-                        -- if v.Special == 1 and v.SpecialExp then
-                        --     print("消除一整列",v.col)
-                           
-                        --     -- list_AH [#list_AH + 1] = cell
-                        --     -- local cell_AV = nil
-                        --     for j=1,8 do
-                        --         cell_AV = self:getCell(j, v.col)
-                        --         list_AV [#list_AV + 1] = cell_AV
-                        --     end
-                        -- end
-                        -- if list_AV then
-                        --     for j,v in pairs(list_AV) do
-                        --           v.isNeedClean = true
-                        --     end
-                        --      v.cutOrder = 1
-                        -- end
-
-
-                        -- if list_AH then
-                        --     for i,v in pairs(list_AH) do
-                        --        v:Explod(CELL_SCALE, 1)
-                        --     end
-                        -- end
-                    
-                    -- local list_H = {}
-                    -- list_H [#list_H + 1] = cell
-                    -- local i = cell.col
-                    -- y = cell.row
-                    -- for i=1,8 do
-                    --     local cell_AH = self:getCell(cell.row,i)
-                    --     if cell_AH then
-                    --        list_H [#list_H + 1] = cell_AH 
-                    --    end
-                    -- end
-                    -- if #list_H then
-                    --     isNeedAnim = 1
-                    --     if isNotClean then
-                    --         else
-                    --             for i,v in pairs(list_H) do
-                    --                 if v.Special and v.Special > 0 and v.step ~= step then
-                    
-                    --                     v.SpecialExp = true
-                    --                     v.isNeedClean = true
-                    --                 else
-                    --                     v.isNeedClean = true
-                    --                 end
-                    --                     v.cutOrder = i
-                    --                 end
-                    --             end
-                    --         end
-                
 
                 for i,v in pairs(DropList) do
                     if col == v.col then
@@ -740,16 +653,6 @@ function MyBoard:changeSingedCell( onAnimationComplete , timeScale )
                 else
                     self.grid[row][col]:setLocalZOrder(CELL_ZORDER + 1)
                     self.grid[row][col]:Explod(CELL_SCALE,self.grid[row][col].cutOrder )
-                    -- if list_AH then
-                    --         for i,v in pairs(list_AH) do
-                    --            v:Explod(CELL_SCALE, 1)
-                    --         end
-                    --     end
-                    --     if list_AV then
-                    --         for j,v in pairs(list_AV) do
-                    --            v:Explod(CELL_SCALE, 1)
-                    --         end
-                    --     end
                     self.grid[row][col] = nil
                 end
                 self.cells[i] = cell
